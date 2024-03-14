@@ -1,9 +1,13 @@
-from fastapi import APIRouter, HTTPException, Query
+from typing import Annotated
+from fastapi import APIRouter, Depends, HTTPException, Query
 from app.api.deps import db_dependency
 from app.models.requests import TodoRequest
 from app.models.models import Todo
+from app.auth.auth import get_current_user
 
 todo_router = APIRouter()
+
+user_dependency = Annotated[dict , Depends(get_current_user)]
 
 @todo_router.get('/get/all')
 async def get_all_todos( db : db_dependency ):
@@ -17,15 +21,15 @@ async def get_todo_by_id( db : db_dependency , id: int = Query(gt=0) ):
     raise HTTPException(status_code=404 , detail='Todo does not exist')
 
 @todo_router.post('/new')
-async def create_new_todo( db : db_dependency, request : TodoRequest ):
-    todo = Todo(**request.model_dump())
+async def create_new_todo( user : user_dependency, db : db_dependency, request : TodoRequest ):
+    todo = Todo(**request.model_dump(), user_id= user.get('user_id'))
     db.add(todo)
     db.commit()
     return 'Successfully created todo'
 
 @todo_router.put('/edit')
-async def edit_todo( db : db_dependency , request : TodoRequest , id: int = Query(gt=0) ):
-    todo = db.query(Todo).filter(Todo.id_ == id).first()
+async def edit_todo( user : user_dependency, db : db_dependency , request : TodoRequest , id: int = Query(gt=0) ):
+    todo = db.query(Todo).filter(Todo.id_ == id).filter(Todo.user_id == user.get('user_id')).first()
     if todo is None:
         raise HTTPException(status_code=404, detail=f'Not such todo with id {id}')
     todo.title = request.title
@@ -39,7 +43,7 @@ async def edit_todo( db : db_dependency , request : TodoRequest , id: int = Quer
     return f'Todo successfully edited'
 
 @todo_router.delete('/delete')
-async def delete_todo( db : db_dependency, id: int = Query(gt=0) ):
+async def delete_todo( user : user_dependency, db : db_dependency, id: int = Query(gt=0) ):
     todo = db.query(Todo).filter(Todo.id_ == id).first()
     if todo is None:
         raise HTTPException(status_code=404, detail=f'Not such todo with id {id}')
@@ -47,3 +51,7 @@ async def delete_todo( db : db_dependency, id: int = Query(gt=0) ):
     db.query(Todo).filter(Todo.id_ == id).delete()
     db.commit()
     return 'Todo successfully deleted'
+
+@todo_router.get('/all')
+async def get_all_todos(db: db_dependency, user : user_dependency):
+    return db.query(Todo).filter(Todo.user_id == user.get('user_id')).all()

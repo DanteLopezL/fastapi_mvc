@@ -69,4 +69,7 @@ async def login_for_access_token( form_data : Annotated[OAuth2PasswordRequestFor
         raise HTTPException('Incorrect password')
     
     token = create_access_token(user_id=user._id, username=user.username , expires_delta=timedelta(hours=4))
-    return token
+    return {
+        'access_token' : token,
+        'token_type' : 'bearer'
+    }
