@@ -9,10 +9,6 @@ todo_router = APIRouter()
 
 user_dependency = Annotated[dict , Depends(get_current_user)]
 
-@todo_router.get('/get/all')
-async def get_all_todos( db : db_dependency ):
-    return db.query(Todo).all()
-
 @todo_router.get('/get')
 async def get_todo_by_id( db : db_dependency , id: int = Query(gt=0) ):
     todo = db.query(Todo).filter(Todo.id_ == id).first()
