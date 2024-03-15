@@ -25,10 +25,6 @@ def create_access_token(username : str , role : str , user_id : int , expires_de
         algorithm=ALGORITHM
     )
 
-@auth_router.get('/details/get')
-async def get_user_details():
-    return 'Authenticated'
-
 @auth_router.post('/new')
 async def create_user( db : db_dependency ,request : UserRequest):
     user = User(
