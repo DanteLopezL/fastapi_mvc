@@ -1,16 +1,13 @@
 from typing import Annotated
 from fastapi import APIRouter, Depends, HTTPException, Query
-from app.api.deps import db_dependency
+from app.api.deps import db_dependency , user_dependency
 from app.models.requests import TodoRequest
 from app.models.models import Todo
-from app.auth.auth import get_current_user
 
 todo_router = APIRouter()
 
-user_dependency = Annotated[dict , Depends(get_current_user)]
-
 @todo_router.get('/get')
-async def get_todo_by_id( db : db_dependency , id: int = Query(gt=0) ):
+async def get_todo_by_id( user : user_dependency, db : db_dependency , id: int = Query(gt=0) ):
     todo = db.query(Todo).filter(Todo.id_ == id).first()
     if todo is not None:
         return todo
