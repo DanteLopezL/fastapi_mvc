@@ -16,3 +16,21 @@
 ```
 pip install alembic
 ```
+
+1. Alembic revision
+Here we add the DB updates
+```
+alembic revision -m "<message>"
+```
+
+1. Alembic upgrade
+Here we add the DB updates
+```
+alembic upgrade <revision id>
+```
+
+1. Alembic downgrade
+Here we add the DB updates
+```
+alembic downgrade -1
+```
