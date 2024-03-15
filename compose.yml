@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  db:
+    container_name: fastapi_db
+    image: postgres:15.1
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=lordran_dev
+      - POSTGRES_PASSWORD=lordran_dev
+      - POSTGRES_DB=fastapi_db
+    ports:
+      - 5433:5432
+
+  pgadmin:
+    depends_on:
+      - db
+    container_name: fastapi_pgadmin
+    image: dpage/pgadmin4:6.17
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=lordran@lordran.dev
+      - PGADMIN_DEFAULT_PASSWORD=lordranpass
+    ports:
+      - 80:80
+
+volumes:
+  pgdata:
