@@ -1,13 +1,8 @@
-from typing import Annotated
-from fastapi import APIRouter, Depends, HTTPException, Query
-from app.api.deps import db_dependency
-from app.models.requests import TodoRequest
+from fastapi import APIRouter, HTTPException
+from app.api.deps import db_dependency , user_dependency
 from app.models.models import Todo
-from app.auth.auth import get_current_user
 
 admin_router = APIRouter()
-
-user_dependency = Annotated[dict , Depends(get_current_user)]
 
 @admin_router.get('/todos/all')
 async def get_all_todos( db : db_dependency , user : user_dependency ):
