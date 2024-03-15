@@ -25,20 +25,6 @@ def create_access_token(username : str , role : str , user_id : int , expires_de
         algorithm=ALGORITHM
     )
 
-@auth_router.post('/new')
-async def create_user( db : db_dependency ,request : UserRequest):
-    user = User(
-        email=request.email,
-        username=request.username,
-        first_name=request.first_name,
-        last_name=request.last_name,
-        password=bcrypt_context.hash(request.password),
-        role='mod'
-    )
-    db.add(user)
-    db.commit()
-    return f'Successfully created user'
-
 @auth_router.post('/token')
 async def login_for_access_token( form_data : Annotated[OAuth2PasswordRequestForm, Depends()] , db : db_dependency ):
     user = db.query(User).filter(User.username == form_data.username).first()
@@ -52,3 +38,18 @@ async def login_for_access_token( form_data : Annotated[OAuth2PasswordRequestFor
         'access_token' : token,
         'token_type' : 'bearer'
     }
+
+@auth_router.post('/new')
+async def create_user( db : db_dependency ,request : UserRequest):
+    user = User(
+        email=request.email,
+        username=request.username,
+        first_name=request.first_name,
+        last_name=request.last_name,
+        password=bcrypt_context.hash(request.password),
+        role='mod',
+        phone_number = request.phone_number
+    )
+    db.add(user)
+    db.commit()
+    return f'Successfully created user'
