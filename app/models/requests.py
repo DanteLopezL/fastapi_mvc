@@ -7,6 +7,7 @@ class UserRequest(BaseModel):
     first_name : str = Field()
     last_name : str = Field()
     password : str = Field()
+    phone_number : str = Field()
 
 class TodoRequest(BaseModel):
     title : str = Field(min_length=3)
