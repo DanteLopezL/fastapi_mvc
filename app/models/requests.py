@@ -14,3 +14,6 @@ class TodoRequest(BaseModel):
     priority : int = Field(gt=0 , lt=6)
     complete: bool = Field(default=False)
     
+class PasswordChangeRequest(BaseModel):
+    password : str
+    new_password : str = Field(min_length=3)
