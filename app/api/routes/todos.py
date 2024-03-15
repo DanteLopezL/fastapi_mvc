@@ -1,10 +1,22 @@
+from pathlib import Path
 from typing import Annotated
-from fastapi import APIRouter, Depends, HTTPException, Query
+from fastapi import APIRouter, Depends, HTTPException, Query, Request
 from app.api.deps import db_dependency , user_dependency
 from app.models.requests import TodoRequest
 from app.models.models import Todo
 
+from fastapi.responses import HTMLResponse
+from fastapi.templating import Jinja2Templates
+
 todo_router = APIRouter()
+
+templates_directory = Path(__file__).parent.parent.parent / "templates"
+templates = Jinja2Templates(directory=str(templates_directory))
+
+@todo_router.get('/hello', response_class=HTMLResponse)
+async def hello( request : Request ):
+    print(f'Template directory {templates_directory}')
+    return templates.TemplateResponse('home.html', { 'request': request })
 
 @todo_router.get('/get')
 async def get_todo_by_id( user : user_dependency, db : db_dependency , id: int = Query(gt=0) ):
