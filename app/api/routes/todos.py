@@ -13,6 +13,8 @@ todo_router = APIRouter()
 templates_directory = Path(__file__).parent.parent.parent / "templates"
 templates = Jinja2Templates(directory=str(templates_directory))
 
+#################### FULLSTACK VERSION #############################
+
 @todo_router.get('/', response_class=HTMLResponse)
 async def view_get_all_by_user( request : Request , db : db_dependency ):
     todos = db.query(Todo).filter(Todo.user_id == 1).all()
@@ -36,8 +38,18 @@ async def create_new_todo( request : Request,  db : db_dependency , title : str 
     return RedirectResponse(url='/todos', status_code=status.HTTP_302_FOUND)
 
 @todo_router.get('/edit', response_class=HTMLResponse)
-async def view_edit_todo( request : Request ):
-    return templates.TemplateResponse('edit-todo.html', { 'request': request })
+async def edit_todo( request : Request , db : db_dependency , todo_id : int = Query(...) ):
+    todo = db.query(Todo).filter(Todo._id == todo_id).first()
+    
+    return templates.TemplateResponse('edit-todo.html', { 'request': request , 'todo': todo})
+
+@todo_router.put('/edit', response_class=HTMLResponse)
+async def edit_todo( request : Request , db : db_dependency , todo_id : int ):
+    todo = db.query(Todo).filter(Todo._id == todo_id).first()
+    
+    return templates.TemplateResponse('edit-todo.html', { 'request': request , 'todo': todo})
+
+#################### REST VERSION #############################
 
 # @todo_router.get('/get')
 # async def get_todo_by_id( user : user_dependency, db : db_dependency , id: int = Query(gt=0) ):
@@ -45,6 +57,13 @@ async def view_edit_todo( request : Request ):
 #     if todo is not None:
 #         return todo
 #     raise HTTPException(status_code=404 , detail='Todo does not exist')
+
+# @todo_router.post('/new')
+# async def create_new_todo( user : user_dependency, db : db_dependency, request : TodoRequest ):
+#     todo = Todo(**request.model_dump(), user_id= user.get('user_id'))
+#     db.add(todo)
+#     db.commit()
+#     return 'Successfully created todo'
 
 # @todo_router.put('/edit')
 # async def edit_todo( user : user_dependency, db : db_dependency , request : TodoRequest , id: int = Query(gt=0) ):
