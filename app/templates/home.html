@@ -16,22 +16,26 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td class="border px-4 py-2">1</td>
-                        <td class="border px-4 py-2">Jalarmela</td>
-                        <td class="border px-4 py-2">
-                            <button
-                                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Complete</button>
-                            <button
-                                class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Delete</button>
-                        </td>
-                    </tr>
+
+                    {% for todo in todos %}
+                        <tr>
+                            <td class="border px-4 py-2"> {{todo._id}} </td>
+                            <td class="border px-4 py-2"> {{ todo.title }} </td>
+                            <td class="border px-4 py-2">
+                                <button
+                                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Complete</button>
+                                <button
+                                    onclick="window.location.href='/todos/edit'"
+                                    class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded">Edit</button>
+                            </td>
+                        </tr>
+                    {% endfor %}
+
                 </tbody>
             </table>
 
 
-            <button
-                class="group relative h-12 w-48 overflow-hidden rounded-2xl bg-green-500 text-lg font-bold text-white">
+            <button onclick="window.location.href='/todos/new'" class="group relative h-12 w-48 overflow-hidden rounded-2xl bg-green-500 text-lg font-bold text-white">
                 Add a new Todo
                 <div
                     class="absolute inset-0 h-full w-full scale-0 rounded-2xl transition-all duration-300 group-hover:scale-100 group-hover:bg-white/30">
