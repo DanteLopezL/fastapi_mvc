@@ -49,7 +49,7 @@ def create_access_token(username : str , role : str , user_id : int , expires_de
 async def login_for_access_token( response : Response, form_data : Annotated[OAuth2PasswordRequestForm, Depends()] , db : db_dependency ):
     user = db.query(User).filter(User.username == form_data.username).first()
     if not user:
-        raise HTTPException(f'No user with username : {form_data.username}')
+        return False
     if not bcrypt_context.verify(form_data.password , user.password):
         raise HTTPException('Incorrect password')
     
