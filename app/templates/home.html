@@ -22,7 +22,7 @@
                                 <td class="border px-4 py-2">{{ todo._id }}</td>
                                 <td class="border px-4 py-2">{{ todo.title }}</td>
                                 <td class="border px-4 py-2">
-                                    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Complete</button>
+                                    <button onclick="window.location.href='/todos/complete?todo_id={{todo._id}}'" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Complete</button>
                                     <button onclick="window.location.href='/todos/edit?todo_id={{todo._id}}'" class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded">Edit</button>
                                 </td>
                             </tr>

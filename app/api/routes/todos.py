@@ -66,6 +66,13 @@ async def view_delete_todo( request : Request, db : db_dependency, todo_id: int 
     db.commit()
     return RedirectResponse(url='/todos', status_code=status.HTTP_302_FOUND)
 
+@todo_router.get('/complete')
+async def complete_todo( request : Request , db : db_dependency , todo_id = Query(...) ):
+    todo = db.query(Todo).filter(Todo._id == todo_id).first()
+    todo.complete = True
+    db.add(todo)
+    db.commit()
+    return RedirectResponse(url='/todos', status_code=status.HTTP_302_FOUND)
 
 #################### REST VERSION #############################
 
