@@ -38,16 +38,34 @@ async def create_new_todo( request : Request,  db : db_dependency , title : str 
     return RedirectResponse(url='/todos', status_code=status.HTTP_302_FOUND)
 
 @todo_router.get('/edit', response_class=HTMLResponse)
-async def edit_todo( request : Request , db : db_dependency , todo_id : int = Query(...) ):
+async def view_edit_todo( request : Request , db : db_dependency , todo_id : int = Query(...) ):
     todo = db.query(Todo).filter(Todo._id == todo_id).first()
     
     return templates.TemplateResponse('edit-todo.html', { 'request': request , 'todo': todo})
 
-@todo_router.put('/edit', response_class=HTMLResponse)
-async def edit_todo( request : Request , db : db_dependency , todo_id : int ):
+@todo_router.post('/edit', response_class=HTMLResponse)
+async def edit_todo( request : Request , db : db_dependency , todo_id : int = Query(...) , title = Form(...) , description = Form(...) , priority = Form(...) ):
     todo = db.query(Todo).filter(Todo._id == todo_id).first()
     
-    return templates.TemplateResponse('edit-todo.html', { 'request': request , 'todo': todo})
+    todo.title = title
+    todo.description = description
+    todo.priority = priority
+    
+    db.add(todo)
+    db.commit()
+    
+    return RedirectResponse(url='/todos', status_code=status.HTTP_302_FOUND)
+
+@todo_router.get('/delete')
+async def view_delete_todo( request : Request, db : db_dependency, todo_id: int = Query(...) ):
+    todo = db.query(Todo).filter(Todo._id == todo_id).first()
+    if todo is None:
+        raise HTTPException(status_code=404, detail=f'Not such todo with id {id}')
+    
+    db.query(Todo).filter(Todo._id == todo_id).delete()
+    db.commit()
+    return RedirectResponse(url='/todos', status_code=status.HTTP_302_FOUND)
+
 
 #################### REST VERSION #############################
 
