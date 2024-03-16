@@ -1,4 +1,5 @@
-from fastapi import APIRouter, Depends, HTTPException
+from pathlib import Path
+from fastapi import APIRouter, Depends, HTTPException, Request
 from app.api.deps import ALGORITHM, SECRET_KEY, db_dependency
 from app.models.models import User
 from app.models.requests import UserRequest
@@ -8,9 +9,23 @@ from typing import Annotated
 from jose import jwt
 from datetime import timedelta, datetime, timezone
 
+from fastapi.responses import HTMLResponse
+from fastapi.templating import Jinja2Templates
+
 auth_router = APIRouter()
 
 bcrypt_context = CryptContext(schemes=['bcrypt'])
+
+templates_directory = Path(__file__).parent.parent / "templates"
+templates = Jinja2Templates(directory=str(templates_directory))
+
+@auth_router.get('/login', response_class=HTMLResponse)
+async def login( request : Request ):
+    return templates.TemplateResponse('login.html', { 'request': request })
+
+@auth_router.get('/register', response_class=HTMLResponse)
+async def login( request : Request ):
+    return templates.TemplateResponse('register.html', { 'request': request })
 
 def create_access_token(username : str , role : str , user_id : int , expires_delta : timedelta):
     encode = {

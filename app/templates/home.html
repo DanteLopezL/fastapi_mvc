@@ -1,79 +1,42 @@
-<!DOCTYPE html>
-<html lang="en">
+{% include 'layout.html' %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/htmx.org@1.9.11" integrity="sha384-0gxUXCCR8yv9FM2b+U3FDbsKthCI66oH5IA9fHppQq9DDMHuMauqq1ZHBpJxQ0J0" crossorigin="anonymous"></script>
-    <title>FastAPI fullstack</title>
-</head>
+<div class="mx-auto px-4">
+    <div class="flex flex-wrap -mx-2 overflow-hidden sm:-mx-1 md:-mx-2 lg:-mx-2 xl:-mx-2">
+        <div
+            class="my-2 px-2 w-full overflow-hidden sm:my-1 sm:px-1 sm:w-1/2 md:my-2 md:px-2 md:w-1/2 lg:my-2 lg:px-2 lg:w-1/2 xl:my-2 xl:px-2 xl:w-1/2">
+            <h2 class="font-bold text-xl mb-2">Your todos</h2>
+            <p class="text-gray-700 text-base">Information regarding stuff that needs to be complete</p>
 
-<body>
-
-    <div class="w-full">
-        <nav class="flex items-center justify-between flex-wrap bg-teal-500 p-6">
-            <div class="flex items-center flex-shrink-0 text-white mr-6">
-                <a href="#" class="font-semibold text-xl tracking-tight">Fastapi fullstack</a>
-            </div>
-            <div class="block lg:hidden">
-                <button
-                    class="flex items-center px-3 py-2 border rounded text-teal-200 border-teal-400 hover:text-white hover:border-white">
-                    <span>Icon</span>
-                </button>
-            </div>
-            <div id="navbarNav" class="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
-                <ul class="text-sm lg:flex-grow">
-                    <li class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">
-                        <a href="#">Home</a>
-                    </li>
-                    <li class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">
-                        <a href="#">New</a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-    </div>
-
-    <div class="mx-auto px-4">
-        <div class="flex flex-wrap -mx-2 overflow-hidden sm:-mx-1 md:-mx-2 lg:-mx-2 xl:-mx-2">
-            <div
-                class="my-2 px-2 w-full overflow-hidden sm:my-1 sm:px-1 sm:w-1/2 md:my-2 md:px-2 md:w-1/2 lg:my-2 lg:px-2 lg:w-1/2 xl:my-2 xl:px-2 xl:w-1/2">
-                <h2 class="font-bold text-xl mb-2">Your todos</h2>
-                <p class="text-gray-700 text-base">Information regarding stuff that needs to be complete</p>
-
-                <table class="table-auto mb-4">
-                    <thead>
-                        <tr>
-                            <th class="px-4 py-2">#</th>
-                            <th class="px-4 py-2">Info</th>
-                            <th class="px-4 py-2">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="border px-4 py-2">1</td>
-                            <td class="border px-4 py-2">Jalarmela</td>
-                            <td class="border px-4 py-2">
-                                <button
-                                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Complete</button>
-                                <button
-                                    class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Delete</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+            <table class="table-auto mb-4">
+                <thead>
+                    <tr>
+                        <th class="px-4 py-2">#</th>
+                        <th class="px-4 py-2">Info</th>
+                        <th class="px-4 py-2">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="border px-4 py-2">1</td>
+                        <td class="border px-4 py-2">Jalarmela</td>
+                        <td class="border px-4 py-2">
+                            <button
+                                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Complete</button>
+                            <button
+                                class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Delete</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
 
 
-                <button class="group relative h-12 w-48 overflow-hidden rounded-2xl bg-green-500 text-lg font-bold text-white">
-                    Add a new Todo
-                    <div class="absolute inset-0 h-full w-full scale-0 rounded-2xl transition-all duration-300 group-hover:scale-100 group-hover:bg-white/30"></div>
-                  </button>
-            </div>
+            <button
+                class="group relative h-12 w-48 overflow-hidden rounded-2xl bg-green-500 text-lg font-bold text-white">
+                Add a new Todo
+                <div
+                    class="absolute inset-0 h-full w-full scale-0 rounded-2xl transition-all duration-300 group-hover:scale-100 group-hover:bg-white/30">
+                </div>
+            </button>
         </div>
     </div>
-    <!-- <script src="../static/htmx.min.js"></script> -->
-
-</body>
-
-</html>
+</div>
