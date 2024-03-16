@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/htmx.org@1.9.11" integrity="sha384-0gxUXCCR8yv9FM2b+U3FDbsKthCI66oH5IA9fHppQq9DDMHuMauqq1ZHBpJxQ0J0" crossorigin="anonymous"></script>
+    <title>FastAPI fullstack</title>
+</head>
+
+<body>
+
+    <div class="w-full">
+        <nav class="flex items-center justify-between flex-wrap bg-teal-500 p-6">
+            <div class="flex items-center flex-shrink-0 text-white mr-6">
+                <a href="#" class="font-semibold text-xl tracking-tight">Fastapi fullstack</a>
+            </div>
+            <div class="block lg:hidden">
+                <button
+                    class="flex items-center px-3 py-2 border rounded text-teal-200 border-teal-400 hover:text-white hover:border-white">
+                    <span>Icon</span>
+                </button>
+            </div>
+            <div id="navbarNav" class="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
+                <ul class="text-sm lg:flex-grow">
+                    <li class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">
+                        <a href="#">Home</a>
+                    </li>
+                    <li class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">
+                        <a href="#">New</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+
+    <div>
+        <div>
+            <div>Lets edit yout Todo</div>
+            <div>
+                <form action="">
+                    <div>
+                        <label for="">Title</label>
+                        <input type="text" name="title" id="" required>
+                    </div>
+                    <div>
+                        <label for="">Description</label>
+                        <textarea name="Description" id="" cols="30" rows="3" required></textarea>
+                    </div>
+                    <div>
+                        <label for="">Priority</label>
+                        <select name="priority" id="">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                    </div>
+                    <button class="group relative h-12 w-48 overflow-hidden rounded-2xl bg-green-500 text-lg font-bold text-white">
+                        Edit your todo
+                        <div class="absolute inset-0 h-full w-full scale-0 rounded-2xl transition-all duration-300 group-hover:scale-100 group-hover:bg-white/30"></div>
+                    </button>
+                    <button class="group relative h-12 w-48 overflow-hidden rounded-2xl bg-red-500 text-lg font-bold text-white">
+                        Delete
+                        <div class="absolute inset-0 h-full w-full scale-0 rounded-2xl transition-all duration-300 group-hover:scale-100 group-hover:bg-white/30"></div>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

@@ -13,50 +13,61 @@ todo_router = APIRouter()
 templates_directory = Path(__file__).parent.parent.parent / "templates"
 templates = Jinja2Templates(directory=str(templates_directory))
 
-@todo_router.get('/hello', response_class=HTMLResponse)
-async def hello( request : Request ):
+@todo_router.get('/', response_class=HTMLResponse)
+async def get_all_by_user( request : Request ):
     print(f'Template directory {templates_directory}')
     return templates.TemplateResponse('home.html', { 'request': request })
 
-@todo_router.get('/get')
-async def get_todo_by_id( user : user_dependency, db : db_dependency , id: int = Query(gt=0) ):
-    todo = db.query(Todo).filter(Todo.id_ == id).first()
-    if todo is not None:
-        return todo
-    raise HTTPException(status_code=404 , detail='Todo does not exist')
+@todo_router.get('/new', response_class=HTMLResponse)
+async def create_new_todo( request : Request ):
+    print(f'Template directory {templates_directory}')
+    return templates.TemplateResponse('add-todo.html', { 'request': request })
 
-@todo_router.post('/new')
-async def create_new_todo( user : user_dependency, db : db_dependency, request : TodoRequest ):
-    todo = Todo(**request.model_dump(), user_id= user.get('user_id'))
-    db.add(todo)
-    db.commit()
-    return 'Successfully created todo'
+@todo_router.get('/edit', response_class=HTMLResponse)
+async def edit_todo( request : Request ):
+    print(f'Template directory {templates_directory}')
+    return templates.TemplateResponse('edit-todo.html', { 'request': request })
 
-@todo_router.put('/edit')
-async def edit_todo( user : user_dependency, db : db_dependency , request : TodoRequest , id: int = Query(gt=0) ):
-    todo = db.query(Todo).filter(Todo.id_ == id).filter(Todo.user_id == user.get('user_id')).first()
-    if todo is None:
-        raise HTTPException(status_code=404, detail=f'Not such todo with id {id}')
-    todo.title = request.title
-    todo.description = request.description
-    todo.priority = request.priority
-    todo.complete = request.complete
+
+# @todo_router.get('/get')
+# async def get_todo_by_id( user : user_dependency, db : db_dependency , id: int = Query(gt=0) ):
+#     todo = db.query(Todo).filter(Todo.id_ == id).first()
+#     if todo is not None:
+#         return todo
+#     raise HTTPException(status_code=404 , detail='Todo does not exist')
+
+# @todo_router.post('/new')
+# async def create_new_todo( user : user_dependency, db : db_dependency, request : TodoRequest ):
+#     todo = Todo(**request.model_dump(), user_id= user.get('user_id'))
+#     db.add(todo)
+#     db.commit()
+#     return 'Successfully created todo'
+
+# @todo_router.put('/edit')
+# async def edit_todo( user : user_dependency, db : db_dependency , request : TodoRequest , id: int = Query(gt=0) ):
+#     todo = db.query(Todo).filter(Todo.id_ == id).filter(Todo.user_id == user.get('user_id')).first()
+#     if todo is None:
+#         raise HTTPException(status_code=404, detail=f'Not such todo with id {id}')
+#     todo.title = request.title
+#     todo.description = request.description
+#     todo.priority = request.priority
+#     todo.complete = request.complete
     
-    db.add(todo)
-    db.commit()
+#     db.add(todo)
+#     db.commit()
     
-    return f'Todo successfully edited'
+#     return f'Todo successfully edited'
 
-@todo_router.delete('/delete')
-async def delete_todo( user : user_dependency, db : db_dependency, id: int = Query(gt=0) ):
-    todo = db.query(Todo).filter(Todo.id_ == id).first()
-    if todo is None:
-        raise HTTPException(status_code=404, detail=f'Not such todo with id {id}')
+# @todo_router.delete('/delete')
+# async def delete_todo( user : user_dependency, db : db_dependency, id: int = Query(gt=0) ):
+#     todo = db.query(Todo).filter(Todo.id_ == id).first()
+#     if todo is None:
+#         raise HTTPException(status_code=404, detail=f'Not such todo with id {id}')
     
-    db.query(Todo).filter(Todo.id_ == id).delete()
-    db.commit()
-    return 'Todo successfully deleted'
+#     db.query(Todo).filter(Todo.id_ == id).delete()
+#     db.commit()
+#     return 'Todo successfully deleted'
 
-@todo_router.get('/all')
-async def get_all_todos(db: db_dependency, user : user_dependency):
-    return db.query(Todo).filter(Todo.user_id == user.get('user_id')).all()
+# @todo_router.get('/all')
+# async def get_all_todos(db: db_dependency, user : user_dependency):
+#     return db.query(Todo).filter(Todo.user_id == user.get('user_id')).all()
