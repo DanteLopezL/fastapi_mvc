@@ -1,7 +1,7 @@
 from pathlib import Path
 from typing import Annotated
 from fastapi import APIRouter, Depends, Form, HTTPException, Query, Request, status
-from app.api.deps import db_dependency , user_dependency
+from app.api.deps import db_dependency, get_current_user , user_dependency
 from app.models.requests import TodoRequest
 from app.models.models import Todo
 
@@ -17,21 +17,28 @@ templates = Jinja2Templates(directory=str(templates_directory))
 
 @todo_router.get('/', response_class=HTMLResponse)
 async def view_get_all_by_user( request : Request , db : db_dependency ):
-    todos = db.query(Todo).filter(Todo.user_id == 1).all()
+    user = await get_current_user(request)
+    if user is None:
+        return RedirectResponse(url='/auth/login', status_code=status.HTTP_302_FOUND)
+    todos = db.query(Todo).filter(Todo.user_id == user.get('user_id')).all()
     return templates.TemplateResponse('home.html', { 'request': request , 'todos' : todos })
 
 @todo_router.get('/new', response_class=HTMLResponse)
 async def view_create_new_todo( request : Request ):
+    user = await get_current_user(request)
+    if user is None:
+        return RedirectResponse(url='/auth/login', status_code=status.HTTP_302_FOUND)
     return templates.TemplateResponse('add-todo.html', { 'request': request })
 
 @todo_router.post('/new')
 async def create_new_todo( request : Request,  db : db_dependency , title : str = Form(...) , description : str = Form(...) , priority : int = Form(...)):
+    user = await get_current_user(request)
     todo = Todo()
     todo.title = title
     todo.description = description
     todo.priority = priority
     todo.complete = False
-    todo.user_id = 1
+    todo.user_id = user.get('user_id')
     db.add(todo)
     db.commit()
     
@@ -39,6 +46,9 @@ async def create_new_todo( request : Request,  db : db_dependency , title : str 
 
 @todo_router.get('/edit', response_class=HTMLResponse)
 async def view_edit_todo( request : Request , db : db_dependency , todo_id : int = Query(...) ):
+    user = await get_current_user(request)
+    if user is None:
+        return RedirectResponse(url='/auth/login', status_code=status.HTTP_302_FOUND)
     todo = db.query(Todo).filter(Todo._id == todo_id).first()
     
     return templates.TemplateResponse('edit-todo.html', { 'request': request , 'todo': todo})
