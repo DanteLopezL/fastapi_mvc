@@ -1,0 +1,40 @@
+{% include 'layout.html' %}
+
+<div class="mx-auto px-4">
+    <div class="flex justify-center">
+        <div class="w-full lg:w-3/4 xl:w-2/3">
+            <div class="my-8">
+                <h2 class="font-bold text-2xl mb-4">{{ user.username }}'s todos</h2>
+                <p class="text-gray-700 text-base mb-4">Information regarding stuff that needs to be completed</p>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full table-auto">
+                        <thead>
+                            <tr class="bg-gray-200">
+                                <th class="px-4 py-2">#</th>
+                                <th class="px-4 py-2">Info</th>
+                                <th class="px-4 py-2">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for todo in todos %}
+                            <tr class="hover:bg-gray-100">
+                                <td class="border px-4 py-2">{{ todo._id }}</td>
+                                <td class="border px-4 py-2">{{ todo.title }}</td>
+                                <td class="border px-4 py-2">
+                                    <button onclick="window.location.href='/todos/complete?todo_id={{todo._id}}'" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Complete</button>
+                                    <button onclick="window.location.href='/todos/edit?todo_id={{todo._id}}'" class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded">Edit</button>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <button onclick="window.location.href='/todos/new'" class="mt-8 block w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-4 rounded">
+                    Add a new Todo
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
