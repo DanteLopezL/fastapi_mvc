@@ -1,4 +1,6 @@
-# FastAPI introduction
+# FastAPI MVC
+
+For REST FastAPI go to 'rest' branch
 
 ## Stack used :
 
