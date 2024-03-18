@@ -33,7 +33,7 @@ async def get_current_user(request : Request):
         role : str = payload.get('role')
         
         if username is None or user_id is None:
-            msg = 'Successful logout'
+            msg = 'Expired token'
             response = templates.TemplateResponse('login.html', { 'request' : request , 'msg' : msg })
             response.delete_cookie(key='access_token')
         
