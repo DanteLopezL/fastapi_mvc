@@ -80,6 +80,13 @@ async def login( request : Request, db : db_dependency ):
     except HTTPException as e:
         return templates.TemplateResponse('login.html', { 'request' : request , 'msg': f'Error {e}' })
 
+@auth_router.get('/logout')
+async def logout(request : Request):
+    msg = 'Successful logout'
+    response = templates.TemplateResponse('login.html', { 'request' : request , 'msg' : msg })
+    response.delete_cookie(key='access_token')
+    return response
+
 @auth_router.get('/register', response_class=HTMLResponse)
 async def login( request : Request ):
     return templates.TemplateResponse('register.html', { 'request': request })

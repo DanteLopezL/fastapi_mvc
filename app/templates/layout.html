@@ -26,18 +26,24 @@
             </div>
             <div id="navbarNav" class="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
                 <ul class="text-sm lg:flex-grow">
+                    {% if user %}
                     <li class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">
                         <a href="/todos">Home</a>
                     </li>
-                    <li class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">
-                        <a href="/todos/new">New</a>
-                    </li>
+                    {% endif %}
+                    {% if not user %}
                     <li class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">
                         <a href="/auth/login">Login</a>
                     </li>
                     <li class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">
                         <a href="/auth/register">Register</a>
                     </li>
+                    {% endif %}
+                    {% if user %}
+                    <li class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">
+                        <a href="/auth/logout">Logout</a>
+                    </li>
+                    {% endif %}
                 </ul>
             </div>
         </nav>
