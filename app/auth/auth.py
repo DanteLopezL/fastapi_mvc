@@ -1,5 +1,5 @@
 from pathlib import Path
-from fastapi import APIRouter, Depends, HTTPException, Request, Response, status
+from fastapi import APIRouter, Depends, Form, HTTPException, Request, Response, status
 from app.api.deps import ALGORITHM, SECRET_KEY, db_dependency
 from app.models.models import User
 from app.models.requests import UserRequest
@@ -88,10 +88,29 @@ async def logout(request : Request):
     return response
 
 @auth_router.get('/register', response_class=HTMLResponse)
-async def login( request : Request ):
+async def view_register( request : Request ):
     return templates.TemplateResponse('register.html', { 'request': request })
         
-        
+@auth_router.post('/register', response_class=HTMLResponse)
+async def register( request : Request , db : db_dependency , email: str = Form(...), username: str = Form(...), firstname : str = Form(...) , lastname : str = Form(...), password : str = Form(...), password2 : str = Form(...) ):
+
+    if password != password2:
+        msg = 'Invalid registration request'
+        return templates.TemplateResponse('register.html', {'request' : request , 'msg': msg })
+    
+    user = User()
+    user.username = username
+    user.email = email
+    user.first_name = firstname
+    user.last_name = lastname
+    user.password = bcrypt_context.hash(password)
+    user.role = 'user'
+    
+    db.add(user)
+    db.commit()
+    msg = 'Successfull register'
+    return templates.TemplateResponse('login.html', {'request' : request , 'msg': msg })
+    
 #################### REST VERSION #############################
 
 

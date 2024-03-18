@@ -3,47 +3,64 @@
 <div class="min-h-screen flex items-center justify-center w-full dark:bg-gray-700">
     <div class="bg-white dark:bg-gray-800 shadow-md rounded-lg px-8 py-6 max-w-md">
         <h1 class="text-2xl font-bold text-center mb-4 dark:text-gray-200">Register</h1>
-        <form action="#">
+
+        {% if msg %}
+        {% if msg == 'Successfull register' %}
+        <div class="max-w-md mx-auto bg-white shadow-md rounded-lg overflow-hidden mt-4">
+            <div class="p-4 Login successfull">
+                <p class="text-lg font-semibold text-center text-gray-800">{{ msg }}</p>
+            </div>
+        </div>
+        {% else %}
+        <div class="max-w-md mx-auto bg-white shadow-md rounded-lg overflow-hidden mt-4">
+            <div class="p-4 bg-red-100">
+                <p class="text-lg font-semibold text-center text-gray-800">{{ msg }}</p>
+            </div>
+        </div>
+        {% endif %}
+        {% endif %}
+
+        <form method="post" action="/auth/register">
             <div class="grid grid-cols-2 gap-4">
                 <div class="mb-4">
                     <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Email
                         Address</label>
-                    <input type="email" id="email"
+                    <input type="email" id="email" name="email"
                         class="shadow-sm rounded-md w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                         placeholder="your@email.com" required>
                 </div>
                 <div class="mb-4">
                     <label for="username"
                         class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Username</label>
-                    <input type="text" id="username"
+                    <input type="text" id="username" name="username"
                         class="shadow-sm rounded-md w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                         required>
                 </div>
                 <div class="mb-4">
                     <label for="firstname"
                         class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Firstname</label>
-                    <input type="text" id="firstname"
+                    <input type="text" id="firstname" name="firstname"
                         class="shadow-sm rounded-md w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                         required>
                 </div>
                 <div class="mb-4">
                     <label for="lastname"
                         class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Lastname</label>
-                    <input type="text" id="lastname"
+                    <input type="text" id="lastname" name="lastname"
                         class="shadow-sm rounded-md w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                         required>
                 </div>
                 <div class="mb-4 col-span-2">
                     <label for="password"
                         class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Password</label>
-                    <input type="password" id="password"
+                    <input type="password" id="password" name="password"
                         class="shadow-sm rounded-md w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                         placeholder="Enter your password" required>
                 </div>
                 <div class="mb-4 col-span-2">
                     <label for="password" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Verify
                         password</label>
-                    <input type="password" id="password"
+                    <input type="password" id="password" name="password2"
                         class="shadow-sm rounded-md w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                         placeholder="Enter your password" required>
                 </div>
