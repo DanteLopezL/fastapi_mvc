@@ -21,6 +21,17 @@ For REST FastAPI go to 'rest' branch
 pip install --no-cache-dir --upgrade -r requirements.txt
 ```
 
+1. Add env variables
+```
+DB_USER
+DB_PASSWORD
+DB_HOST
+DB_PORT
+DB_NAME
+PG_EMAIL
+PG_PASSWORD
+```
+
 2. Run docker compose
 Here we initialize the Postgres image with a pgAdmin GUI
 ```
