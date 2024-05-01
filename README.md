@@ -18,7 +18,7 @@ For REST FastAPI go to 'rest' branch
 
 1. Install dependencies
 ```
-pip install --no-cache-dir --upgrade -r requirements.txt
+pip install --no-cache-dir -r requirements.txt
 ```
 
 1. Add env variables
