@@ -68,6 +68,11 @@ docker run -e DB_HOST=your_db_host -e DB_USER=your_db_user -e DB_PASSWORD=your_d
 pip install alembic
 ```
 
+1. Init alembic
+```
+alembic init alembic
+```
+
 2. Alembic revision
 Here we add the DB updates
 ```

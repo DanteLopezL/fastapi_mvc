@@ -1,4 +1,3 @@
-version: '3'
 
 services:
   db:
@@ -11,7 +10,7 @@ services:
       - POSTGRES_PASSWORD=${DB_PASSWORD}
       - POSTGRES_DB=${DB_NAME}
     ports:
-      - 5433:5432
+      - 5432:5432
 
   pgadmin:
     depends_on:

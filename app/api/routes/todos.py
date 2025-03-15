@@ -20,7 +20,7 @@ async def view_get_all_by_user( request : Request , db : db_dependency ):
     user = await get_current_user(request)
     if user is None:
         return RedirectResponse(url='/auth/login', status_code=status.HTTP_302_FOUND)
-    todos = db.query(Todo).filter(Todo.user_id == user.get('user_id')).all()
+    todos = db.query(Todo).filter(Todo.user_id == user.get('user_id'), Todo.complete == False).all()
     return templates.TemplateResponse('home.html', { 'request': request , 'todos' : todos , 'user' : user })
 
 @todo_router.get('/new', response_class=HTMLResponse)
